@@ -53,7 +53,11 @@ int main() {
         if (!raceIsActive) {
             horses[winningHorse]->setRacesWon(1);
             cout << horses[winningHorse]->getName() << " ridden by " << horses[winningHorse]->getRider() << " is the winner!" << endl;
-            cout << horses[winningHorse]->getName() << " has won " << horses[winningHorse]->getRacesWon() << " races so far." << endl;
+            if (horses[winningHorse]->getRacesWon() == 1) {
+                cout << horses[winningHorse]->getName() << " has won 1 race so far. " << endl;
+            } else {
+                cout << horses[winningHorse]->getName() << " has won " << horses[winningHorse]->getRacesWon() << " races." << endl;
+            }
         }
 
         if (raceIsActive) {
@@ -75,6 +79,11 @@ int main() {
             }
         }
     }
+
+    for (int i = 0; i < numHorses; i++) {
+        delete horses[i];
+    }
+    *horses = nullptr;
 
     return 0;
 }
