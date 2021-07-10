@@ -14,7 +14,7 @@ Horse::Horse(string n, string r) {
     racesWon = 0;
     unsigned seed = time(0);
     srand(seed);
-    maxRunningDistPerSecond = initMaxRunSpeed();
+    maxRunningDistPerSecond = getRandomRunSpeed();
 }
 
 string Horse::getName() {
@@ -57,7 +57,7 @@ void Horse::setRacesWon(int w) {
     racesWon += w;
 }
 
-int Horse::initMaxRunSpeed() {
+int Horse::getRandomRunSpeed() {
     const int MIN_SPEED = 1;
     const int MAX_SPEED = 100;
     return ((rand() % (MAX_SPEED - MIN_SPEED + 1)) + MIN_SPEED);
@@ -66,6 +66,10 @@ int Horse::initMaxRunSpeed() {
 void Horse::runASecond() {
     int distanceThisSecond = getMaxRunningDistPerSecond();
     setDistanceTraveled(distanceTraveled + distanceThisSecond);
+    // I'm setting run speed after every run to make the program more dynamic.
+    // Initially I had the same running speed every turn but whichever horse was in
+    // first at the beginning won the race. This make it more interesting.
+    setMaxRunningDistPerSecond(getRandomRunSpeed());
 }
 
 void Horse::sendToGate() {

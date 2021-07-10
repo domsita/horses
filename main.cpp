@@ -12,6 +12,8 @@ int getGoalLength();
 
 int main() {
     bool raceIsActive = false;
+    char startAgain = 'n';
+    int winningHorse = -1;
     char continueRace = 'y';
     int numHorses = getNumHorses();
     Horse * horses[numHorses];
@@ -34,10 +36,43 @@ int main() {
             horses[i]->runASecond();
             horses[i]->displayHorse(goalLength);
         }
-        cout << "Continue race? (y or n) ";
-        cin >> continueRace;
-        if (continueRace == 'n' || continueRace == 'N') {
-            raceIsActive = false;
+        
+        for (int i = 0; i < numHorses; i++) {
+            if (horses[i]->getDistanceTraveled() > goalLength) {
+                raceIsActive = false;
+                if (winningHorse < 0) {
+                    winningHorse = i;
+                } else {
+                    if (horses[i]->getDistanceTraveled() > horses[winningHorse]->getDistanceTraveled()) {
+                        winningHorse = i;
+                    }
+                }
+            }
+        }
+
+        if (!raceIsActive) {
+            horses[winningHorse]->setRacesWon(1);
+            cout << horses[winningHorse]->getName() << " ridden by " << horses[winningHorse]->getRider() << " is the winner!" << endl;
+            cout << horses[winningHorse]->getName() << " has won " << horses[winningHorse]->getRacesWon() << " races so far." << endl;
+        }
+
+        if (raceIsActive) {
+            cout << "Continue race? (y or n) ";
+            cin >> continueRace;
+            if (continueRace == 'n' || continueRace == 'N') {
+                raceIsActive = false;
+            }
+        } else {
+            cout << "Start a new race? (y or n)? ";
+            cin >> startAgain;
+            if (startAgain == 'y' || startAgain == 'Y') {
+                goalLength = getGoalLength();
+                winningHorse = -1;
+                raceIsActive = true;
+                for (int i = 0; i < numHorses; i++) {
+                    horses[i]->sendToGate();
+                }
+            }
         }
     }
 

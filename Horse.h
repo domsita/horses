@@ -24,7 +24,7 @@ class Horse {
         void setDistanceTraveled(int d);
         int getRacesWon();
         void setRacesWon(int w);
-        int initMaxRunSpeed();
+        int getRandomRunSpeed();
         void runASecond();
         void sendToGate();
         void displayHorse(int goalLength);
